@@ -438,7 +438,7 @@ if __name__ == "__main__":
         img_path = sys.argv[1]
     else:
         # Default to the existing image path
-        img_path = 'Set 2/satlas.png'
+        img_path = 'set 2/satlas.png'
     
     results = analyze_image_quality_literature(img_path)
     if results:

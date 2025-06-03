@@ -241,14 +241,6 @@ Set    Model      PSNR     SSIM     RMSE
 🏆 ESRGAN wins on SSIM: 0.9980 vs 0.9966
 ```
 
-### Comprehensive Analysis
-```
-🎯 Top 5 by BRISQUE (Best Quality):
-  1. high_quality_image.png        Score:  12.45 (Very good quality)
-  2. moderate_image.png            Score:  18.73 (Very good quality)
-  3. standard_image.png            Score:  25.12 (Good quality)
-```
-
 ## Contributing
 
 This toolkit is designed for research and evaluation of image quality metrics. Feel free to extend with additional metrics or improve existing implementations.
