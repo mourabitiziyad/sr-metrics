@@ -138,17 +138,17 @@ def calculate_rms_contrast(image):
     
     return rms_contrast
 
-def calculate_pique(image):
+def calculate_piqe(image):
     """
-    Calculate PIQUE (Perception based Image QUality Evaluator)
+    Calculate PIQE (Perception based Image QUality Evaluator)
     Based on Venkatanath et al. (2015) - "Blind Image Quality Evaluation Using Perception Based Features"
     
-    PIQUE measures perceptual quality by analyzing:
+    PIQE measures perceptual quality by analyzing:
     1. Block-wise distortion estimation
     2. Noise estimation 
     3. Activity/texture analysis
     
-    Returns: PIQUE score (lower is better, typically 0-100)
+    Returns: PIQE score (lower is better, typically 0-100)
     """
     try:
         # Convert to grayscale if needed
@@ -170,7 +170,7 @@ def calculate_pique(image):
         num_blocks_w = w // block_size
         
         if num_blocks_h < 2 or num_blocks_w < 2:
-            # Image too small for reliable PIQUE calculation
+            # Image too small for reliable PIQE calculation
             return None
         
         # Initialize arrays for block features
@@ -234,7 +234,7 @@ def calculate_pique(image):
         mean_entropy = np.mean(block_entropies)
         mean_activity = np.mean(block_activities)
         
-        # PIQUE computation (simplified version)
+        # PIQE computation (simplified version)
         # Lower scores indicate better quality
         
         # Distortion component (higher variance in active regions suggests distortion)
@@ -250,15 +250,15 @@ def calculate_pique(image):
         uniformity_penalty = std_variance * 100
         
         # Combine components
-        pique_score = distortion_score + noise_score + activity_penalty + uniformity_penalty
+        piqe_score = distortion_score + noise_score + activity_penalty + uniformity_penalty
         
         # Clip to reasonable range
-        pique_score = np.clip(pique_score, 0, 100)
+        piqe_score = np.clip(piqe_score, 0, 100)
         
-        return float(pique_score)
+        return float(piqe_score)
         
     except Exception as e:
-        print(f"Error calculating PIQUE: {e}")
+        print(f"Error calculating PIQE: {e}")
         return None
 
 def analyze_image_quality_literature(img_path):
@@ -288,8 +288,8 @@ def analyze_image_quality_literature(img_path):
             results['brisque'] = None
             print("BRISQUE not available in this OpenCV version")
         
-        # PIQUE (Perception based Image QUality Evaluator)
-        results['pique'] = calculate_pique(img_bgr)
+        # PIQE (Perception based Image QUality Evaluator)
+        results['piqe'] = calculate_piqe(img_bgr)
         
         # Standard sharpness metrics from literature
         results['laplacian_variance'] = calculate_laplacian_variance(img_bgr)

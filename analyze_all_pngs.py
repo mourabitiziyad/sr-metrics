@@ -2,7 +2,7 @@ import os
 import glob
 import cv2
 import numpy as np
-from literature_metrics import analyze_image_quality_literature, calculate_brisque_opencv, calculate_pique
+from literature_metrics import analyze_image_quality_literature, calculate_brisque_opencv, calculate_piqe
 
 def find_all_pngs():
     """Find all PNG files in the directory tree, excluding system/library files"""
@@ -89,8 +89,8 @@ def analyze_all_png_files():
         # Get raw BRISQUE score only
         raw_brisque = calculate_brisque_opencv(img)
         
-        # Get PIQUE score  
-        pique_score = calculate_pique(img)
+        # Get PIQE score  
+        piqe_score = calculate_piqe(img)
         
         # Combine all results
         result = {
@@ -100,7 +100,7 @@ def analyze_all_png_files():
             'height': height,
             'megapixels': round((width * height) / 1000000, 2),
             'raw_brisque': raw_brisque,
-            'pique_score': pique_score,
+            'piqe_score': piqe_score,
             'brisque_interpretation': get_quality_interpretation(raw_brisque)
         }
         
@@ -113,8 +113,8 @@ def analyze_all_png_files():
         # Print brief summary for this image
         if raw_brisque is not None:
             print(f"  🎯 BRISQUE: {raw_brisque:.2f} ({get_quality_interpretation(raw_brisque)})")
-        if pique_score is not None:
-            print(f"  🔍 PIQUE: {pique_score:.2f} (lower = better)")
+        if piqe_score is not None:
+            print(f"  🔍 PIQE: {piqe_score:.2f} (lower = better)")
         if lit_metrics and lit_metrics.get('laplacian_variance'):
             print(f"  🔪 Sharpness: {lit_metrics['laplacian_variance']:.4f}")
         if lit_metrics and lit_metrics.get('rms_contrast'):
@@ -139,36 +139,36 @@ def display_comprehensive_results(results):
     print("=" * 120)
     
     # Basic info table
-    print(f"\n{'#':<3} {'Image':<45} {'Dimensions':<12} {'MP':<5} {'BRISQUE':<10} {'PIQUE':<8} {'Quality':<20}")
+    print(f"\n{'#':<3} {'Image':<45} {'Dimensions':<12} {'MP':<5} {'BRISQUE':<10} {'PIQE':<8} {'Quality':<20}")
     print("-" * 120)
     
     for i, result in enumerate(results, 1):
         dims = f"{result['width']}x{result['height']}"
         mp = f"{result['megapixels']:.1f}"
         brisque = f"{result['raw_brisque']:.2f}" if result['raw_brisque'] else "N/A"
-        pique = f"{result['pique_score']:.2f}" if result['pique_score'] else "N/A"
+        piqe = f"{result['piqe_score']:.2f}" if result['piqe_score'] else "N/A"
         quality = result['brisque_interpretation'] if result['brisque_interpretation'] else "N/A"
         
-        print(f"{i:<3} {result['label'][:44]:<45} {dims:<12} {mp:<5} {brisque:<10} {pique:<8} {quality:<20}")
+        print(f"{i:<3} {result['label'][:44]:<45} {dims:<12} {mp:<5} {brisque:<10} {piqe:<8} {quality:<20}")
     
     # Detailed metrics table
     print("\n" + "=" * 120)
     print("📊 DETAILED QUALITY METRICS")
     print("=" * 120)
     
-    print(f"{'Image':<40} {'BRISQUE':<10} {'PIQUE':<8} {'Laplacian':<12} {'Brenner':<12} {'Contrast':<10} {'Entropy':<8}")
+    print(f"{'Image':<40} {'BRISQUE':<10} {'PIQE':<8} {'Laplacian':<12} {'Brenner':<12} {'Contrast':<10} {'Entropy':<8}")
     print("-" * 120)
     
     for result in results:
         img_name = result['label'].split('/')[-1][:39]  # Just filename, truncated
         brisque = f"{result['raw_brisque']:.2f}" if result['raw_brisque'] else "N/A"
-        pique = f"{result['pique_score']:.2f}" if result['pique_score'] else "N/A"
+        piqe = f"{result['piqe_score']:.2f}" if result['piqe_score'] else "N/A"
         lap = f"{result.get('laplacian_variance', 0):.4f}" if result.get('laplacian_variance') else "N/A"
         bre = f"{result.get('brenner_sharpness', 0):.0f}" if result.get('brenner_sharpness') else "N/A"
         con = f"{result.get('rms_contrast', 0):.4f}" if result.get('rms_contrast') else "N/A"
         ent = f"{result.get('shannon_entropy', 0):.2f}" if result.get('shannon_entropy') else "N/A"
         
-        print(f"{img_name:<40} {brisque:<10} {pique:<8} {lap:<12} {bre:<12} {con:<10} {ent:<8}")
+        print(f"{img_name:<40} {brisque:<10} {piqe:<8} {lap:<12} {bre:<12} {con:<10} {ent:<8}")
     
     # Rankings
     print("\n" + "=" * 120)
@@ -177,7 +177,7 @@ def display_comprehensive_results(results):
     
     # Filter for valid results
     valid_brisque = [r for r in results if r.get('raw_brisque') is not None]
-    valid_pique = [r for r in results if r.get('pique_score') is not None]
+    valid_piqe = [r for r in results if r.get('piqe_score') is not None]
     valid_sharpness = [r for r in results if r.get('laplacian_variance') is not None]
     
     if valid_brisque:
@@ -189,11 +189,11 @@ def display_comprehensive_results(results):
             name = result['label'].split('/')[-1]
             print(f"  {i}. {name:<40} Score: {score:6.2f} ({quality})")
     
-    if valid_pique:
-        print("\n🔍 Top 5 by PIQUE (Best Quality - Lower Scores):")
-        pique_ranked = sorted(valid_pique, key=lambda x: x['pique_score'])[:5]
-        for i, result in enumerate(pique_ranked, 1):
-            score = result['pique_score']
+    if valid_piqe:
+        print("\n🔍 Top 5 by PIQE (Best Quality - Lower Scores):")
+        piqe_ranked = sorted(valid_piqe, key=lambda x: x['piqe_score'])[:5]
+        for i, result in enumerate(piqe_ranked, 1):
+            score = result['piqe_score']
             name = result['label'].split('/')[-1]
             print(f"  {i}. {name:<40} Score: {score:6.2f} (lower = better)")
     
@@ -225,13 +225,13 @@ def display_comprehensive_results(results):
         print(f"  Average: {np.mean(brisque_scores):.2f}")
         print(f"  Median: {np.median(brisque_scores):.2f}")
     
-    if valid_pique:
-        pique_scores = [r['pique_score'] for r in valid_pique]
-        print(f"\n📊 PIQUE Statistics:")
-        print(f"  Best (lowest): {min(pique_scores):.2f}")
-        print(f"  Worst (highest): {max(pique_scores):.2f}")
-        print(f"  Average: {np.mean(pique_scores):.2f}")
-        print(f"  Median: {np.median(pique_scores):.2f}")
+    if valid_piqe:
+        piqe_scores = [r['piqe_score'] for r in valid_piqe]
+        print(f"\n📊 PIQE Statistics:")
+        print(f"  Best (lowest): {min(piqe_scores):.2f}")
+        print(f"  Worst (highest): {max(piqe_scores):.2f}")
+        print(f"  Average: {np.mean(piqe_scores):.2f}")
+        print(f"  Median: {np.median(piqe_scores):.2f}")
     
     if valid_sharpness:
         sharp_scores = [r['laplacian_variance'] for r in valid_sharpness]
@@ -243,7 +243,7 @@ def display_comprehensive_results(results):
     print("\n" + "=" * 120)
     print("📚 LITERATURE METRICS USED:")
     print("• BRISQUE: Mittal et al. (2012) - No-reference perceptual quality")
-    print("• PIQUE: Venkatanath et al. (2015) - Perception based quality evaluation")
+    print("• PIQE: Venkatanath et al. (2015) - Perception based quality evaluation")
     print("• Laplacian Variance: Tenenbaum et al. (1984) - Edge sharpness") 
     print("• Brenner Sharpness: Brenner et al. (1976) - Focus quality")
     print("• RMS Contrast: Standard contrast measure")
@@ -267,7 +267,7 @@ def save_results_to_csv(results):
                 'height': result['height'],
                 'megapixels': result['megapixels'],
                 'raw_brisque': result.get('raw_brisque'),
-                'pique_score': result.get('pique_score'),
+                'piqe_score': result.get('piqe_score'),
                 'quality_interpretation': result.get('brisque_interpretation'),
                 'laplacian_variance': result.get('laplacian_variance'),
                 'brenner_sharpness': result.get('brenner_sharpness'),

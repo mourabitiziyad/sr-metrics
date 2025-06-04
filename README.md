@@ -13,7 +13,7 @@ This toolkit offers multiple approaches to image quality evaluation:
 
 ### No-Reference Quality Metrics
 - **BRISQUE**: Blind/Referenceless Image Spatial Quality Evaluator (lower is better)
-- **PIQUE**: Perception based Image Quality Evaluator (lower is better)
+- **PIQE**: Perception based Image Quality Evaluator (lower is better)
 - **Laplacian Variance**: Edge sharpness measure (higher is better)
 - **Brenner Sharpness**: Focus quality metric (higher is better)
 - **RMS Contrast**: Standard contrast measure
@@ -106,7 +106,7 @@ python analyze_all_pngs.py
 
 **Features:**
 - Recursive PNG file discovery
-- Literature-based quality metrics (BRISQUE, PIQUE)
+- Literature-based quality metrics (BRISQUE, PIQE)
 - Sharpness analysis (Laplacian, Brenner)
 - Quality rankings and statistical summaries
 - Optional CSV export with pandas
@@ -142,7 +142,7 @@ brisque_score = calculate_brisque_opencv(image)
 
 ### Literature-Based No-Reference Metrics
 - **BRISQUE** (Mittal et al., 2012): Spatial domain quality assessment
-- **PIQUE** (Venkatanath et al., 2015): Perception-based quality evaluation
+- **PIQE** (Venkatanath et al., 2015): Perception-based quality evaluation
 - **Laplacian Variance** (Tenenbaum et al., 1984): Edge-based sharpness
 - **Brenner Sharpness** (Brenner et al., 1976): Focus quality measure
 - **Gradient Magnitude**: Edge strength analysis
@@ -168,7 +168,7 @@ brisque_score = calculate_brisque_opencv(image)
 - **PSNR**: Higher values indicate better quality (typically 20-50 dB)
 - **SSIM**: Values closer to 1.0 indicate better structural similarity
 - **RMSE**: Lower values indicate less error
-- **PIQUE**: Lower values indicate better perceptual quality
+- **PIQE**: Lower values indicate better perceptual quality
 
 ## Advanced Features
 
